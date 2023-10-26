@@ -11,8 +11,9 @@ public class ElectronicItem extends InventoryItem {
                           ItemCategory category,
                           long id,
                           int quantity,
+                          BigDecimal price,
                           int warranty) {
-        super(name, manufacturer, description, category, id, quantity);
+        super(name, manufacturer, description, category, id, quantity, price);
         this.warranty = warranty;
     }
 

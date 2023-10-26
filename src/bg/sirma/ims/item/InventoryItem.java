@@ -3,7 +3,7 @@ package bg.sirma.ims.item;
 
 import java.math.BigDecimal;
 
-public abstract class InventoryItem extends AbstractItem {
+public class InventoryItem extends AbstractItem {
     private long id;
     private Number quantity;
     private BigDecimal price;
@@ -13,10 +13,12 @@ public abstract class InventoryItem extends AbstractItem {
                          String description,
                          ItemCategory category,
                          long id,
-                         Number quantity) {
+                         Number quantity,
+                         BigDecimal price) {
         super(name, manufacturer, description, category);
         this.id = id;
         this.quantity = quantity;
+        this.price = price;
     }
 
     public long getId() {
@@ -43,5 +45,20 @@ public abstract class InventoryItem extends AbstractItem {
     @Override
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean isBreakable() {
+        return false;
+    }
+
+    @Override
+    public BigDecimal value() {
+        return this.price;
+    }
+
+    @Override
+    public boolean isPerishable() {
+        return false;
     }
 }

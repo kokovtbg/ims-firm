@@ -11,8 +11,9 @@ public class GroceryItem extends InventoryItem {
                        ItemCategory category,
                        long id,
                        Number quantity,
+                       BigDecimal price,
                        LocalDate expirationDate) {
-        super(name, manufacturer, description, category, id, quantity);
+        super(name, manufacturer, description, category, id, quantity, price);
         this.expirationDate = expirationDate;
     }
 
