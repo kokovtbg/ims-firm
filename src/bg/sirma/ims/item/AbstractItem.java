@@ -3,7 +3,7 @@ package bg.sirma.ims.item;
 
 import bg.sirma.ims.item.interfaces.*;
 
-public abstract class AbstractItem implements Item, Categorizable, Breakable, Perishable, Sellable {
+public abstract class AbstractItem implements Item, Categorizable, Sellable {
     private String name;
     private String manufacturer;
     private String description;
@@ -37,17 +37,8 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     }
 
     @Override
-    public String handleBreakage() {
-        return String.format("%s is broken", this);
-    }
-
-    @Override
-    public String handleExpiration() {
-        return String.format("%s has expired", this);
-    }
-
-    @Override
     public String toString() {
-        return String.format("Item with name: (%s) and manufacturer: (%s)", this.name, this.manufacturer);
+        return String.format("Item with name: (%s), category: (%s) and manufacturer: (%s)",
+                this.name, this.category, this.manufacturer);
     }
 }

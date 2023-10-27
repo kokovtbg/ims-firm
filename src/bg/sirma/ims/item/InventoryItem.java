@@ -48,17 +48,8 @@ public class InventoryItem extends AbstractItem {
     }
 
     @Override
-    public boolean isBreakable() {
-        return false;
-    }
-
-    @Override
     public BigDecimal value() {
         return this.price;
     }
 
-    @Override
-    public boolean isPerishable() {
-        return false;
-    }
 }

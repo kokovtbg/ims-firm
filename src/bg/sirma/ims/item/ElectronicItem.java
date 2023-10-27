@@ -1,8 +1,10 @@
 package bg.sirma.ims.item;
 
+import bg.sirma.ims.item.interfaces.Breakable;
+
 import java.math.BigDecimal;
 
-public class ElectronicItem extends InventoryItem {
+public class ElectronicItem extends InventoryItem implements Breakable {
     private int warranty;
 
     public ElectronicItem(String name,
@@ -26,18 +28,13 @@ public class ElectronicItem extends InventoryItem {
     }
 
     @Override
-    public boolean isBreakable() {
-        return true;
-    }
-
-    @Override
     public BigDecimal value() {
         return getPrice().multiply(BigDecimal.valueOf(1.3));
     }
 
     @Override
-    public boolean isPerishable() {
-        return false;
+    public String handleBreakage() {
+        return String.format("%s is broken", this);
     }
 
 }

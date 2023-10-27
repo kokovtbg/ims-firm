@@ -1,8 +1,10 @@
 package bg.sirma.ims.item;
 
+import bg.sirma.ims.item.interfaces.Breakable;
+
 import java.math.BigDecimal;
 
-public class FragileItem extends InventoryItem {
+public class FragileItem extends InventoryItem implements Breakable {
     private final double weight;
     public FragileItem(String name,
                        String manufacturer,
@@ -21,17 +23,13 @@ public class FragileItem extends InventoryItem {
     }
 
     @Override
-    public boolean isBreakable() {
-        return true;
-    }
-
-    @Override
     public BigDecimal value() {
         return this.getPrice().multiply(BigDecimal.valueOf(1.4));
     }
 
     @Override
-    public boolean isPerishable() {
-        return false;
+    public String handleBreakage() {
+        return String.format("%s is broken", this);
     }
+
 }
