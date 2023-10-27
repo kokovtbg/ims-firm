@@ -3,28 +3,37 @@ package bg.sirma.ims.user;
 import bg.sirma.ims.exception.IOCustomException;
 import bg.sirma.ims.exception.UserCredentialsNotValidException;
 import bg.sirma.ims.exception.UserExistException;
-import bg.sirma.ims.fileHandlers.FileHandler;
+import bg.sirma.ims.fileHandlers.MyFileHandler;
 
-import java.util.Arrays;
+import java.util.List;
+
+import static bg.sirma.ims.constants.Constants.usersPath;
 
 public class UserServiceImpl implements UserService {
     private static User currentUser = null;
     @Override
     public void register(String username, String password) throws UserExistException, IOCustomException {
-        User[] allUsers = FileHandler.getAllFromFile(usersPath);
-        Arrays.stream(allUsers)
+        List<User> allUsers = MyFileHandler.getAllFromFile(usersPath);
+        User user = allUsers.stream()
                 .filter(u -> u.getUsername().equals(username))
                 .findFirst()
-                .orElseThrow(() -> new UserExistException(String
-                        .format("User with username (%s) already exist", username)));
-        User user = new User(username, password);
-        FileHandler.saveToFile(user, usersPath);
+                .orElse(null);
+        if (user != null) {
+            throw new UserExistException(String.format("User with username (%s) already exist", username));
+        }
+        long lastId = MyFileHandler.getLastId(allUsers);
+        user = new User(lastId + 1, username, password);
+        if (lastId == 0) {
+            user.addRole(RoleEnum.ADMIN);
+        }
+        allUsers.add(user);
+        MyFileHandler.saveToFile(allUsers, usersPath);
     }
 
     @Override
     public User login(String username, String password) throws UserCredentialsNotValidException {
-        User[] users = FileHandler.getAllFromFile(usersPath);
-        User user = Arrays.stream(users)
+        List<User> users = MyFileHandler.getAllFromFile(usersPath);
+        User user = users.stream()
                 .filter(u -> u.getUsername().equals(username) && u.getPassword().equals(password))
                 .findFirst()
                 .orElseThrow(() -> new UserCredentialsNotValidException("User credentials not valid!!!"));

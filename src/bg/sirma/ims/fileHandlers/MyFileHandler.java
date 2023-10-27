@@ -1,6 +1,8 @@
 package bg.sirma.ims.fileHandlers;
 
 import bg.sirma.ims.exception.IOCustomException;
+import bg.sirma.ims.item.InventoryItem;
+import bg.sirma.ims.user.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -9,12 +11,15 @@ import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
-public class FileHandler {
-    private static final String basePath = "src/bg/sirma/ims/db/";
+import static bg.sirma.ims.constants.Constants.basePath;
+
+public class MyFileHandler {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public static <E>E[] getAllFromFile(String path) {
+    public static <E> List<E> getAllFromFile(String path) {
         E[] objects = (E[]) new Object[0];
         try (Reader reader = Files.newBufferedReader(Path.of(basePath + path))) {
             objects = (E[]) gson.fromJson(reader, Object[].class);
@@ -22,7 +27,7 @@ public class FileHandler {
 
         }
 
-        return objects;
+        return Arrays.stream(objects).toList();
     }
 
     public static <E> void saveToFile(E object, String path) throws IOCustomException {
@@ -33,11 +38,25 @@ public class FileHandler {
         }
     }
 
-    public static <E> void saveToFile(E[] objects, String path) throws IOCustomException {
+    public static <E> void saveToFile(List<E> objects, String path) throws IOCustomException {
         try (Writer writer = Files.newBufferedWriter(Path.of(basePath + path))) {
             gson.toJson(objects, writer);
         } catch (IOException e) {
             throw new IOCustomException("Something went wrong. Try again");
         }
+    }
+
+    public static <E> long getLastId(List<E> list) {
+        return list.stream().map(e -> {
+            if (e instanceof User) {
+                return ((User) e).getId();
+            } else if (e instanceof InventoryItem) {
+                return ((InventoryItem) e).getId();
+            }
+            return null;
+                })
+                .mapToLong(aLong -> aLong != null ? aLong : 0)
+                .max()
+                .orElse(0);
     }
 }
