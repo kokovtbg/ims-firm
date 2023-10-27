@@ -1,6 +1,6 @@
-package bg.sirma.ims.item.interfaces;
+package bg.sirma.ims.model.item.interfaces;
 
-import bg.sirma.ims.item.ItemCategory;
+import bg.sirma.ims.model.item.ItemCategory;
 
 public interface Categorizable {
     ItemCategory getCategory();

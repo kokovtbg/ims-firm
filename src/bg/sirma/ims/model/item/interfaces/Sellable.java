@@ -1,4 +1,4 @@
-package bg.sirma.ims.item.interfaces;
+package bg.sirma.ims.model.item.interfaces;
 
 import java.math.BigDecimal;
 

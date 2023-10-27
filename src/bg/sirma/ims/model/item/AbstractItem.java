@@ -1,7 +1,7 @@
-package bg.sirma.ims.item;
+package bg.sirma.ims.model.item;
 
 
-import bg.sirma.ims.item.interfaces.*;
+import bg.sirma.ims.model.item.interfaces.*;
 
 public abstract class AbstractItem implements Item, Categorizable, Sellable {
     private String name;

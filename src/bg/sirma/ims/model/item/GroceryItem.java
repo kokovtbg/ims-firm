@@ -1,6 +1,6 @@
-package bg.sirma.ims.item;
+package bg.sirma.ims.model.item;
 
-import bg.sirma.ims.item.interfaces.Perishable;
+import bg.sirma.ims.model.item.interfaces.Perishable;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

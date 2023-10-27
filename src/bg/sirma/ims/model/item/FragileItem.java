@@ -1,6 +1,6 @@
-package bg.sirma.ims.item;
+package bg.sirma.ims.model.item;
 
-import bg.sirma.ims.item.interfaces.Breakable;
+import bg.sirma.ims.model.item.interfaces.Breakable;
 
 import java.math.BigDecimal;
 

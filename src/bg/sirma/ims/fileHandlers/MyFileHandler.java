@@ -1,8 +1,8 @@
 package bg.sirma.ims.fileHandlers;
 
 import bg.sirma.ims.exception.IOCustomException;
-import bg.sirma.ims.item.InventoryItem;
-import bg.sirma.ims.user.User;
+import bg.sirma.ims.model.item.InventoryItem;
+import bg.sirma.ims.model.user.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
