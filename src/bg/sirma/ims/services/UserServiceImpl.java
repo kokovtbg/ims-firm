@@ -13,6 +13,11 @@ import static bg.sirma.ims.constants.Constants.usersPath;
 
 public class UserServiceImpl implements UserService {
     private static User currentUser = null;
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
     @Override
     public void register(String username, String password) throws UserExistException, IOCustomException {
         List<User> allUsers = MyFileHandler.getAllFromFile(usersPath);

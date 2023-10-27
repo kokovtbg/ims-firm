@@ -10,11 +10,10 @@ public class FragileItem extends InventoryItem implements Breakable {
                        String manufacturer,
                        String description,
                        ItemCategory category,
-                       long id,
                        int quantity,
                        BigDecimal price,
                        double weight) {
-        super(name, manufacturer, description, category, id, quantity, price);
+        super(name, manufacturer, description, category, quantity, price);
         this.weight = weight;
     }
 

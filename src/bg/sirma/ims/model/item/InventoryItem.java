@@ -12,11 +12,9 @@ public class InventoryItem extends AbstractItem {
                          String manufacturer,
                          String description,
                          ItemCategory category,
-                         long id,
                          Number quantity,
                          BigDecimal price) {
         super(name, manufacturer, description, category);
-        this.id = id;
         this.quantity = quantity;
         this.price = price;
     }

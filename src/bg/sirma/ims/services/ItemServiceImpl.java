@@ -1,0 +1,144 @@
+package bg.sirma.ims.services;
+
+import bg.sirma.ims.exception.IOCustomException;
+import bg.sirma.ims.exception.ItemNotFoundException;
+import bg.sirma.ims.fileHandlers.MyFileHandler;
+import bg.sirma.ims.model.item.AbstractItem;
+import bg.sirma.ims.model.item.InventoryItem;
+import bg.sirma.ims.model.item.ItemCategory;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static bg.sirma.ims.constants.Constants.itemsPath;
+
+public class ItemServiceImpl implements ItemService {
+    private boolean checkAdminPrivileges() {
+        return UserServiceImpl.getCurrentUser() != null;
+    }
+
+    @Override
+    public InventoryItem add(InventoryItem item) throws IOCustomException {
+        if (!checkAdminPrivileges()) {
+            return null;
+        }
+
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        long lastId = MyFileHandler.getLastId(items);
+        item.setId(lastId + 1);
+        items.add(item);
+        MyFileHandler.saveToFile(items, itemsPath);
+
+        return item;
+    }
+
+    @Override
+    public boolean remove(long id) throws ItemNotFoundException, IOCustomException {
+        if (!checkAdminPrivileges()) {
+            return false;
+        }
+
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        InventoryItem inventoryItem = items.stream()
+                .filter(i -> i.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new ItemNotFoundException(String.format("Item with id (%d) not found!!!", id)));
+        items.remove(inventoryItem);
+        MyFileHandler.saveToFile(items, itemsPath);
+
+        return true;
+    }
+
+    @Override
+    public List<InventoryItem> getAll() {
+        return MyFileHandler.getAllFromFile(itemsPath);
+    }
+
+    @Override
+    public InventoryItem getById(long id) throws ItemNotFoundException {
+        if (!checkAdminPrivileges()) {
+            return null;
+        }
+
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+
+        return items.stream()
+                .filter(i -> i.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new ItemNotFoundException(String.format("Item with id (%d) not found!!!", id)));
+    }
+
+    @Override
+    public InventoryItem update(long id, Number quantity) throws ItemNotFoundException, IOCustomException {
+        if (!checkAdminPrivileges()) {
+            return null;
+        }
+
+        return updateByClient(id, quantity);
+    }
+
+    @Override
+    public List<InventoryItem> sortByName() {
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+
+        return items.stream()
+                .sorted(Comparator.comparing(AbstractItem::getName))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InventoryItem> sortByCategory() {
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+
+        return items.stream()
+                .sorted(Comparator.comparing(AbstractItem::getCategory))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InventoryItem> sortByPrice() {
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+
+        return items.stream()
+                .sorted(Comparator.comparing(InventoryItem::getPrice))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InventoryItem> search(String name) {
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+
+        return items.stream()
+                .filter(i -> i.getName().equals(name))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<InventoryItem> search(ItemCategory category) {
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+
+        return items.stream()
+                .filter(i -> i.getCategory().equals(category))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public InventoryItem updateByClient(long id, Number quantity) throws ItemNotFoundException, IOCustomException {
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        InventoryItem inventoryItem = items.stream()
+                .filter(i -> i.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new ItemNotFoundException(String.format("Item with id (%d) not found!!!", id)));
+
+        if (inventoryItem.getQuantity() instanceof Integer) {
+            inventoryItem.setQuantity((int) inventoryItem.getQuantity() - (int) quantity);
+        } else if (inventoryItem.getQuantity() instanceof Double) {
+            inventoryItem.setQuantity((double) inventoryItem.getQuantity() - (double) quantity);
+        }
+
+        MyFileHandler.saveToFile(items, itemsPath);
+
+        return inventoryItem;
+    }
+}

@@ -11,11 +11,10 @@ public class ElectronicItem extends InventoryItem implements Breakable {
                           String manufacturer,
                           String description,
                           ItemCategory category,
-                          long id,
                           int quantity,
                           BigDecimal price,
                           int warranty) {
-        super(name, manufacturer, description, category, id, quantity, price);
+        super(name, manufacturer, description, category, quantity, price);
         this.warranty = warranty;
     }
 

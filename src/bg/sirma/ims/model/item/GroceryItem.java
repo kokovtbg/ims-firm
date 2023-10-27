@@ -11,11 +11,10 @@ public class GroceryItem extends InventoryItem implements Perishable {
                        String manufacturer,
                        String description,
                        ItemCategory category,
-                       long id,
                        Number quantity,
                        BigDecimal price,
                        LocalDate expirationDate) {
-        super(name, manufacturer, description, category, id, quantity, price);
+        super(name, manufacturer, description, category, quantity, price);
         this.expirationDate = expirationDate;
     }
 

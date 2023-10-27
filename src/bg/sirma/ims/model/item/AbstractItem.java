@@ -16,6 +16,18 @@ public abstract class AbstractItem implements Item, Categorizable, Sellable {
         this.category = category;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public String details() {
         return this.toString();
