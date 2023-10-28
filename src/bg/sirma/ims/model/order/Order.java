@@ -21,6 +21,14 @@ public class Order {
         this.id = id;
     }
 
+    public PaymentMethod getPayment() {
+        return payment;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
