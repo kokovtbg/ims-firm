@@ -2,6 +2,7 @@ package bg.sirma.ims.model.item;
 
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class InventoryItem extends AbstractItem {
     private long id;
@@ -50,4 +51,16 @@ public class InventoryItem extends AbstractItem {
         return this.price;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InventoryItem that = (InventoryItem) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
