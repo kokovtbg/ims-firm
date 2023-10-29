@@ -3,13 +3,13 @@ package bg.sirma.ims.services;
 import bg.sirma.ims.exception.*;
 import bg.sirma.ims.model.item.InventoryItem;
 import bg.sirma.ims.model.order.Order;
-import bg.sirma.ims.model.payment.*;
 import bg.sirma.ims.model.user.User;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 public class OrderServiceImpl implements OrderService {
+    private static final PaymentService paymentService = new PaymentServiceImpl();
     private static final ItemService itemService = new ItemServiceImpl();
 
     @Override
@@ -25,17 +25,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order order(Order order) throws PermissionDeniedException, IOCustomException, ItemQuantityNotEnoughException, ItemNotValidException, ItemNotFoundException {
+    public Order order(Order order, String pin) throws PermissionDeniedException, IOCustomException, ItemQuantityNotEnoughException, ItemNotValidException, ItemNotFoundException, NotEnoughFundsException {
         User currentUser = UserServiceImpl.getCurrentUser();
         if (currentUser == null) {
             throw new PermissionDeniedException("You do not have permissions for that!!!");
         }
 
-        PaymentMethod payment = order.getPayment();
-        User payer = payment.getPayer();
-        if (!currentUser.getUsername().equals(payer.getUsername())) {
-            throw new PermissionDeniedException("You do not have permissions for that!!!");
-        }
+        paymentService.pay(order, pin);
 
         for (Map.Entry<InventoryItem, Number> e : order.getCart().getShoppingMap().entrySet()) {
             itemService.updateByClient(e.getKey().getId(), e.getValue());

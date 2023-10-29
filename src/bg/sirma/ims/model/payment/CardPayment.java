@@ -2,10 +2,10 @@ package bg.sirma.ims.model.payment;
 
 import bg.sirma.ims.model.user.User;
 
-public class DebitCardPayment extends PaymentMethod {
+public class CardPayment extends PaymentMethod {
     private String cardNumber;
 
-    public DebitCardPayment(User payer, String cardNumber) {
+    public CardPayment(User payer, String cardNumber) {
         super(payer);
         this.cardNumber = cardNumber;
     }
@@ -20,7 +20,7 @@ public class DebitCardPayment extends PaymentMethod {
 
     @Override
     public String toString() {
-        return "DebitCardPayment{" +
+        return "CardPayment{" +
                 "cardNumber='" + cardNumber + '\'' +
                 '}';
     }
