@@ -2,6 +2,8 @@ package bg.sirma.ims.fileHandlers;
 
 import bg.sirma.ims.exception.IOCustomException;
 import bg.sirma.ims.model.item.InventoryItem;
+import bg.sirma.ims.model.order.Order;
+import bg.sirma.ims.model.payment.PaymentMethod;
 import bg.sirma.ims.model.user.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -52,6 +54,10 @@ public class MyFileHandler {
                 return ((User) e).getId();
             } else if (e instanceof InventoryItem) {
                 return ((InventoryItem) e).getId();
+            } else if (e instanceof Order) {
+                return ((Order) e).getId();
+            } else if (e instanceof PaymentMethod) {
+                return ((PaymentMethod) e).getId();
             }
             return null;
                 })

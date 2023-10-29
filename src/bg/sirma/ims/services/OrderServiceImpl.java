@@ -1,12 +1,16 @@
 package bg.sirma.ims.services;
 
 import bg.sirma.ims.exception.*;
+import bg.sirma.ims.fileHandlers.MyFileHandler;
 import bg.sirma.ims.model.item.InventoryItem;
 import bg.sirma.ims.model.order.Order;
 import bg.sirma.ims.model.user.User;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
+
+import static bg.sirma.ims.constants.Constants.ordersPath;
 
 public class OrderServiceImpl implements OrderService {
     private static final PaymentService paymentService = new PaymentServiceImpl();
@@ -37,7 +41,17 @@ public class OrderServiceImpl implements OrderService {
             itemService.updateByClient(e.getKey().getId(), e.getValue());
         }
 
+        saveOrder(order);
+
         return order;
+    }
+
+    private static void saveOrder(Order order) throws IOCustomException {
+        List<Order> orders = MyFileHandler.getAllFromFile(ordersPath);
+        long lastId = MyFileHandler.getLastId(orders);
+        order.setId(lastId + 1);
+        orders.add(order);
+        MyFileHandler.saveToFile(orders, ordersPath);
     }
 }
 
