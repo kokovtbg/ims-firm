@@ -1,0 +1,48 @@
+[
+  {
+    "id": 1,
+    "quantityPerKilogram": 10.0,
+    "price": 10.0,
+    "name": "moliv",
+    "manufacturer": "pencil",
+    "description": "just-another-moliv",
+    "category": "STANDARD"
+  },
+  {
+    "id": 2,
+    "quantityPerPiece": 10,
+    "price": 20.0,
+    "name": "himikal",
+    "manufacturer": "manu",
+    "description": "just-another-pencil",
+    "category": "LUXURIOUS"
+  },
+  {
+    "id": 3,
+    "quantityPerKilogram": 100.0,
+    "price": 2.0,
+    "name": "bananas",
+    "manufacturer": "Ecuador",
+    "description": "They come from South America",
+    "category": "STANDARD"
+  },
+  {
+    "id": 4,
+    "quantityPerPiece": 20,
+    "price": 5.0,
+    "name": "belina",
+    "manufacturer": "Ache",
+    "description": "Belina for izbelvane",
+    "category": "STANDARD"
+  },
+  {
+    "expirationDate": "2026-10-10",
+    "id": 5,
+    "quantityPerPiece": 20,
+    "price": 5.0,
+    "name": "belina",
+    "manufacturer": "Ache",
+    "description": "Belina for izbelvane",
+    "category": "STANDARD"
+  }
+]

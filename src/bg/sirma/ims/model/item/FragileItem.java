@@ -31,4 +31,8 @@ public class FragileItem extends InventoryItem implements Breakable {
         return String.format("%s is broken", this);
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" weight: (%s)", this.weight);
+    }
 }

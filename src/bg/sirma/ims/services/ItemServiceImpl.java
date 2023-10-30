@@ -25,21 +25,25 @@ public class ItemServiceImpl implements ItemService {
 
     private void validateItem(InventoryItem item) throws ItemNotValidException {
         if (item.getName().isBlank() || item.getManufacturer().isBlank() || item.getDescription().isBlank()
-                || (double) item.getQuantity() <= 0 || item.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+                || item.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             throw new ItemNotValidException("Item must be valid!!!");
+        }
+
+        if (item.getQuantityPerKilogram() != null && item.getQuantityPerKilogram() <= 0
+                || item.getQuantityPerPiece() != null && item.getQuantityPerPiece() <= 0) {
+            throw new ItemNotValidException("Item must be valid");
         }
     }
 
     private void checkAvailability(InventoryItem item, Number quantity) throws ItemQuantityNotEnoughException {
-        if (item.getQuantity() instanceof Integer) {
-            if ((int) item.getQuantity() - (int) quantity < 0) {
-                throw new ItemQuantityNotEnoughException(String.format("Not enough quantity from item (%s)!!!", item));
-            }
-        } else {
-            if ((double) item.getQuantity() - (double) quantity < 0) {
-                throw new ItemQuantityNotEnoughException(String.format("Not enough quantity from item (%s)!!!", item));
-            }
+        if (item.getQuantityPerPiece() - (int) quantity < 0) {
+            throw new ItemQuantityNotEnoughException(String.format("Not enough quantity from item (%s)!!!", item));
         }
+
+        if (item.getQuantityPerKilogram() - (double) quantity < 0) {
+            throw new ItemQuantityNotEnoughException(String.format("Not enough quantity from item (%s)!!!", item));
+        }
+
     }
 
     @Override
@@ -107,7 +111,12 @@ public class ItemServiceImpl implements ItemService {
                 .findFirst()
                 .orElseThrow(() -> new ItemNotFoundException(String.format("Item with id (%d) not found!!!", id)));
 
-        inventoryItem.setQuantity(quantity);
+        if (inventoryItem.getQuantityPerKilogram() != null) {
+            inventoryItem.setQuantityPerKilogram((double) quantity);
+        } else if (inventoryItem.getQuantityPerPiece() != null) {
+            inventoryItem.setQuantityPerPiece((int) quantity);
+        }
+
         validateItem(inventoryItem);
 
         MyFileHandler.saveToFile(items, itemsPath);
@@ -170,10 +179,10 @@ public class ItemServiceImpl implements ItemService {
 
         checkAvailability(inventoryItem, quantity);
 
-        if (inventoryItem.getQuantity() instanceof Integer) {
-            inventoryItem.setQuantity((int) inventoryItem.getQuantity() - (int) quantity);
-        } else if (inventoryItem.getQuantity() instanceof Double) {
-            inventoryItem.setQuantity((double) inventoryItem.getQuantity() - (double) quantity);
+        if (inventoryItem.getQuantityPerKilogram() != null) {
+            inventoryItem.setQuantityPerKilogram(inventoryItem.getQuantityPerKilogram() - (double) quantity);
+        } else if (inventoryItem.getQuantityPerPiece() != null) {
+            inventoryItem.setQuantityPerPiece(inventoryItem.getQuantityPerPiece() - (int) quantity);
         }
 
         MyFileHandler.saveToFile(items, itemsPath);

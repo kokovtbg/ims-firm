@@ -4,7 +4,13 @@ public enum CommandEnum {
     EXIT(""),
     REGISTER("(username) (password)"),
     LOGIN("(username) (password)"),
-    LOGOUT("");
+    LOGOUT(""),
+    ITEM_ADD_KILOGRAM("(name)|(manufacturer)|(description)|(category)|(quantity)|(price)"
+            + System.lineSeparator() +
+            "{optional...[|(expiration-date)]}"),
+    ITEM_ADD_PIECE("(name)|(manufacturer)|(description)|(category)|(quantity)|(price)"
+            + System.lineSeparator() +
+            "{optional...[|(`grocery`)|(expiration-date)] optional...[|(`fragile`)|(weight)] optional...[|(`electronic`)|(warranty)]}");
 
     private String value;
 

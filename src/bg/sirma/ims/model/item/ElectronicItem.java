@@ -36,4 +36,8 @@ public class ElectronicItem extends InventoryItem implements Breakable {
         return String.format("%s is broken", this);
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" warranty: (%d) years", this.warranty);
+    }
 }

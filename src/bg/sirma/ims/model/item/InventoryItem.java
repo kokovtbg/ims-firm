@@ -6,17 +6,29 @@ import java.util.Objects;
 
 public class InventoryItem extends AbstractItem {
     private long id;
-    private Number quantity;
+    private Double quantityPerKilogram;
+    private Integer quantityPerPiece;
     private BigDecimal price;
 
     public InventoryItem(String name,
                          String manufacturer,
                          String description,
                          ItemCategory category,
-                         Number quantity,
+                         double quantity,
                          BigDecimal price) {
         super(name, manufacturer, description, category);
-        this.quantity = quantity;
+        this.quantityPerKilogram = quantity;
+        this.price = price;
+    }
+
+    public InventoryItem(String name,
+                         String manufacturer,
+                         String description,
+                         ItemCategory category,
+                         int quantityPerPiece,
+                         BigDecimal price) {
+        super(name, manufacturer, description, category);
+        this.quantityPerPiece = quantityPerPiece;
         this.price = price;
     }
 
@@ -28,12 +40,20 @@ public class InventoryItem extends AbstractItem {
         this.id = id;
     }
 
-    public Number getQuantity() {
-        return quantity;
+    public Double getQuantityPerKilogram() {
+        return quantityPerKilogram;
     }
 
-    public void setQuantity(Number quantity) {
-        this.quantity = quantity;
+    public void setQuantityPerKilogram(double quantityPerKilogram) {
+        this.quantityPerKilogram = quantityPerKilogram;
+    }
+
+    public Integer getQuantityPerPiece() {
+        return quantityPerPiece;
+    }
+
+    public void setQuantityPerPiece(int quantityPerPiece) {
+        this.quantityPerPiece = quantityPerPiece;
     }
 
     @Override
@@ -62,5 +82,13 @@ public class InventoryItem extends AbstractItem {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        String add = (quantityPerPiece != null) ?
+                String.format(" with quantity: (%d), price: (%s)", this.quantityPerPiece, this.price) :
+                String.format(" with quantity (%s), price: (%s)", this.quantityPerKilogram, this.price);
+        return super.toString() + add;
     }
 }

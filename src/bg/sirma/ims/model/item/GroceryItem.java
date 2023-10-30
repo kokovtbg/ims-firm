@@ -7,14 +7,26 @@ import java.time.LocalDate;
 
 public class GroceryItem extends InventoryItem implements Perishable {
     private final LocalDate expirationDate;
+
     public GroceryItem(String name,
                        String manufacturer,
                        String description,
                        ItemCategory category,
-                       Number quantity,
+                       double quantity,
                        BigDecimal price,
                        LocalDate expirationDate) {
         super(name, manufacturer, description, category, quantity, price);
+        this.expirationDate = expirationDate;
+    }
+
+    public GroceryItem(String name,
+                       String manufacturer,
+                       String description,
+                       ItemCategory category,
+                       int quantityPerPiece,
+                       BigDecimal price,
+                       LocalDate expirationDate) {
+        super(name, manufacturer, description, category, quantityPerPiece, price);
         this.expirationDate = expirationDate;
     }
 
@@ -32,4 +44,8 @@ public class GroceryItem extends InventoryItem implements Perishable {
         return String.format("%s has expired", this);
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + String.format(" expiration date: (%s)", this.expirationDate);
+    }
 }
