@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(String username, String password) throws UserExistException, IOCustomException {
-        List<User> allUsers = MyFileHandler.getAllFromFile(usersPath);
+        List<User> allUsers = MyFileHandler.getAllFromFile(usersPath, User[].class);
         User user = allUsers.stream()
                 .filter(u -> u.getUsername().equals(username))
                 .findFirst()
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String username, String password) throws UserCredentialsNotValidException {
-        List<User> users = MyFileHandler.getAllFromFile(usersPath);
+        List<User> users = MyFileHandler.getAllFromFile(usersPath, User[].class);
         User user = users.stream()
                 .filter(u -> u.getUsername().equals(username) && u.getPassword().equals(password))
                 .findFirst()

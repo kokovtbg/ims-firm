@@ -15,21 +15,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static bg.sirma.ims.constants.Constants.basePath;
 
 public class MyFileHandler {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public static <E> List<E> getAllFromFile(String path) {
+    public static <E> List<E> getAllFromFile(String path, Class<E[]> clazz) {
         E[] objects = (E[]) new Object[0];
         try (Reader reader = Files.newBufferedReader(Path.of(basePath + path))) {
-            objects = (E[]) gson.fromJson(reader, Object[].class);
+            objects = gson.fromJson(reader, clazz);
         } catch (IOException ignored) {
 
         }
 
-        return Arrays.stream(objects).toList();
+        return Arrays.stream(objects).collect(Collectors.toList());
     }
 
     public static <E> void saveToFile(E object, String path) throws IOCustomException {

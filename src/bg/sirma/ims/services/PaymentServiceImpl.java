@@ -106,7 +106,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         CardPayment cardPayment = new CardPayment(currentUser, cardNumber);
-        List<PaymentMethod> payments = MyFileHandler.getAllFromFile(paymentsPath);
+        List<PaymentMethod> payments = MyFileHandler.getAllFromFile(paymentsPath, PaymentMethod[].class);
         payments.add(cardPayment);
         MyFileHandler.saveToFile(payments, paymentsPath);
 
@@ -120,7 +120,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
 
         PayPalPayment payPalPayment = new PayPalPayment(currentUser, account);
-        List<PaymentMethod> payments = MyFileHandler.getAllFromFile(paymentsPath);
+        List<PaymentMethod> payments = MyFileHandler.getAllFromFile(paymentsPath, PaymentMethod[].class);
         payments.add(payPalPayment);
         MyFileHandler.saveToFile(payments, paymentsPath);
 

@@ -50,7 +50,7 @@ public class ItemServiceImpl implements ItemService {
 
         validateItem(item);
 
-        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
         long lastId = MyFileHandler.getLastId(items);
         item.setId(lastId + 1);
         items.add(item);
@@ -65,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
             throw new PermissionDeniedException("You do not have permissions for that!!!");
         }
 
-        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
         InventoryItem inventoryItem = items.stream()
                 .filter(i -> i.getId() == id)
                 .findFirst()
@@ -78,7 +78,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<InventoryItem> getAll() {
-        return MyFileHandler.getAllFromFile(itemsPath);
+        return MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ItemServiceImpl implements ItemService {
             throw new PermissionDeniedException("You do not have permissions for that!!!");
         }
 
-        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
 
         return items.stream()
                 .filter(i -> i.getId() == id)
@@ -101,7 +101,7 @@ public class ItemServiceImpl implements ItemService {
             throw new PermissionDeniedException("You do not have permissions for that!!!");
         }
 
-        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
         InventoryItem inventoryItem = items.stream()
                 .filter(i -> i.getId() == id)
                 .findFirst()
@@ -117,7 +117,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<InventoryItem> sortByName() {
-        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
 
         return items.stream()
                 .sorted(Comparator.comparing(AbstractItem::getName))
@@ -126,7 +126,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<InventoryItem> sortByCategory() {
-        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
 
         return items.stream()
                 .sorted(Comparator.comparing(AbstractItem::getCategory))
@@ -135,7 +135,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<InventoryItem> sortByPrice() {
-        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
 
         return items.stream()
                 .sorted(Comparator.comparing(InventoryItem::getPrice))
@@ -144,7 +144,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<InventoryItem> search(String name) {
-        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
 
         return items.stream()
                 .filter(i -> i.getName().equals(name))
@@ -153,7 +153,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<InventoryItem> search(ItemCategory category) {
-        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
 
         return items.stream()
                 .filter(i -> i.getCategory().equals(category))
@@ -162,7 +162,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public InventoryItem updateByClient(long id, Number quantity) throws ItemNotFoundException, IOCustomException, ItemNotValidException, ItemQuantityNotEnoughException {
-        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath);
+        List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
         InventoryItem inventoryItem = items.stream()
                 .filter(i -> i.getId() == id)
                 .findFirst()

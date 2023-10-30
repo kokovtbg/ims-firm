@@ -47,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private static void saveOrder(Order order) throws IOCustomException {
-        List<Order> orders = MyFileHandler.getAllFromFile(ordersPath);
+        List<Order> orders = MyFileHandler.getAllFromFile(ordersPath, Order[].class);
         long lastId = MyFileHandler.getLastId(orders);
         order.setId(lastId + 1);
         orders.add(order);
