@@ -9,5 +9,5 @@ public interface PaymentService {
     void pay(Order order, String pin) throws PermissionDeniedException, NotEnoughFundsException;
     PaymentMethod addCardPayment(String cardNumber) throws PermissionDeniedException, IOCustomException;
     PaymentMethod addPayPalPayment(PayPalAccount account) throws PermissionDeniedException, IOCustomException;
-    PaymentMethod getByTypeAndUserUsername(Class<? extends PaymentMethod> paymentMethodClass) throws PaymentMethodNotFoundException;
+    PaymentMethod getById(long id) throws PaymentMethodNotFoundException;
 }

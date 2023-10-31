@@ -22,6 +22,7 @@ public class PayPalPayment extends PaymentMethod {
     @Override
     public String toString() {
         return "PayPalPayment{" +
+                "id=" + getId() +
                 "paypalAccount=" + paypalAccount +
                 '}';
     }

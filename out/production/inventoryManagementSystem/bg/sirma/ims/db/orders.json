@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "payment": {
+      "paypalAccount": {
+        "username": "ivan",
+        "password": "1234"
+      },
+      "id": 3,
+      "payer": {
+        "id": 1,
+        "username": "ivan",
+        "password": "1234",
+        "roles": [
+          "ADMIN"
+        ]
+      },
+      "type": "PayPalPayment"
+    },
+    "cart": {
+      "shoppingMap": {
+        "Item with name: (tomatos), category: (STANDARD) and manufacturer: (Bulgaria) with quantity (10.0), price: (3.0) expiration date: (2023-11-11)": 8.0
+      }
+    }
+  }
+]

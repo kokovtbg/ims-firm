@@ -36,11 +36,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     private void checkAvailability(InventoryItem item, Number quantity) throws ItemQuantityNotEnoughException {
-        if (item.getQuantityPerPiece() - (int) quantity < 0) {
+        if (item.getQuantityPerPiece() != null && item.getQuantityPerPiece() - (int) quantity < 0) {
             throw new ItemQuantityNotEnoughException(String.format("Not enough quantity from item (%s)!!!", item));
         }
 
-        if (item.getQuantityPerKilogram() - (double) quantity < 0) {
+        if (item.getQuantityPerKilogram() != null && item.getQuantityPerKilogram() - (double) quantity < 0) {
             throw new ItemQuantityNotEnoughException(String.format("Not enough quantity from item (%s)!!!", item));
         }
 

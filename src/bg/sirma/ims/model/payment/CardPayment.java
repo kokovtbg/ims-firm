@@ -22,6 +22,7 @@ public class CardPayment extends PaymentMethod {
     @Override
     public String toString() {
         return "CardPayment{" +
+                "id=" + getId() +
                 "cardNumber='" + cardNumber + '\'' +
                 '}';
     }

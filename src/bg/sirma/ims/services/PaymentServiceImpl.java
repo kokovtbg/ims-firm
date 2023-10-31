@@ -138,12 +138,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentMethod getByTypeAndUserUsername(Class<? extends PaymentMethod> paymentMethodClass) throws PaymentMethodNotFoundException {
-        String username = UserServiceImpl.getCurrentUser().getUsername();
+    public PaymentMethod getById(long id) throws PaymentMethodNotFoundException {
         List<PaymentMethod> paymentMethods = MyFileHandler.getAllFromFile(paymentsPath, PaymentMethod[].class);
         return paymentMethods.stream()
-                .filter(p -> p.getPayer().getUsername().equals(username) && p.getClass().equals(paymentMethodClass))
+                .filter(p -> p.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new PaymentMethodNotFoundException(String.format("Payment method not found on username (%s)", username)));
+                .orElseThrow(() -> new PaymentMethodNotFoundException("Payment method not found on that username"));
     }
 }

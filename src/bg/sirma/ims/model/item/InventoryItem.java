@@ -100,6 +100,6 @@ public class InventoryItem extends AbstractItem {
         String add = (quantityPerPiece != null) ?
                 String.format(" with quantity: (%d), price: (%s)", this.quantityPerPiece, this.price) :
                 String.format(" with quantity (%s), price: (%s)", this.quantityPerKilogram, this.price);
-        return super.toString() + add;
+        return super.toString() + "id=" + this.id + add;
     }
 }

@@ -13,11 +13,12 @@ public enum CommandEnum {
             "{optional...[|(`grocery`)|(expiration-date)] optional...[|(`fragile`)|(weight)] optional...[|(`electronic`)|(warranty)]}"),
     ITEM_REMOVE("(id)"),
     ITEM_UPDATE("(id) (quantity)"),
+    ITEM_LIST("List of items"),
     PAYMENT_ADD_PAYPAL("(username from PayPal) (password from PayPal)"),
     PAYMENT_ADD_CARD("(card number)"),
     ORDER_ADD_TO_CART("(item id) (quantity)"),
     ORDER_TOTAL_COST("Total cost of cart"),
-    ORDER_DO_ORDER("...[(pin)]");
+    ORDER_DO_ORDER("(id payment method) {optional...(pin)}");
 
     private String value;
 

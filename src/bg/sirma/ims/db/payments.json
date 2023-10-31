@@ -27,5 +27,21 @@
       ]
     },
     "type": "CardPayment"
+  },
+  {
+    "paypalAccount": {
+      "username": "ivan",
+      "password": "1234"
+    },
+    "id": 3,
+    "payer": {
+      "id": 1,
+      "username": "ivan",
+      "password": "1234",
+      "roles": [
+        "ADMIN"
+      ]
+    },
+    "type": "PayPalPayment"
   }
 ]

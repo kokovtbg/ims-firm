@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Runner {
     private static final UserService userService = new UserServiceImpl();
@@ -120,6 +121,12 @@ public class Runner {
                         printMessageToUser(itemService.update(id, quantity));
                     }
                     case 8 -> {
+                        printCommandEnum(CommandEnum.ITEM_LIST);
+                        printMessageToUser(itemService.getAll().stream()
+                                .map(InventoryItem::toString)
+                                .collect(Collectors.joining(System.lineSeparator())));
+                    }
+                    case 9 -> {
                         printCommandEnum(CommandEnum.PAYMENT_ADD_PAYPAL);
                         String[] commandData = scanner.nextLine().split("\\s+");
                         String username = commandData[0];
@@ -127,12 +134,12 @@ public class Runner {
                         PayPalAccount account = new PayPalAccount(username, password);
                         printMessageToUser(paymentService.addPayPalPayment(account));
                     }
-                    case 9 -> {
+                    case 10 -> {
                         printCommandEnum(CommandEnum.PAYMENT_ADD_CARD);
                         String cardNumber = scanner.nextLine();
                         printMessageToUser(paymentService.addCardPayment(cardNumber));
                     }
-                    case 10 -> {
+                    case 11 -> {
                         printCommandEnum(CommandEnum.ORDER_ADD_TO_CART);
                         String[] commandData = scanner.nextLine().split("\\s+");
                         long id = Long.parseLong(commandData[0]);
@@ -141,22 +148,21 @@ public class Runner {
                         cart.addToCart(item, quantity);
                         printMessageToUser(String.format("%s%nADDED TO CART", item));
                     }
-                    case 11 -> {
+                    case 12 -> {
                         printCommandEnum(CommandEnum.ORDER_TOTAL_COST);
                         printMessageToUser(orderService.totalCost(cart));
                     }
-                    case 12 -> {
+                    case 13 -> {
                         printCommandEnum(CommandEnum.ORDER_DO_ORDER);
-                        String pin = scanner.nextLine();
-                        Order order;
-                        if (pin.isBlank()) {
-                            PaymentMethod paymentMethod = paymentService.getByTypeAndUserUsername(PayPalPayment.class);
-                            order = new Order(paymentMethod, cart);
-                            orderService.order(order,null);
+                        String[] commandData = scanner.nextLine().split("\\s+");
+                        long id = Long.parseLong(commandData[0]);
+                        PaymentMethod paymentMethod = paymentService.getById(id);
+                        Order order = new Order(paymentMethod, cart);
+                        if (commandData.length == 2) {
+                            String pin = commandData[1];
+                            printMessageToUser(orderService.order(order, pin));
                         } else {
-                            PaymentMethod paymentMethod = paymentService.getByTypeAndUserUsername(CardPayment.class);
-                            order = new Order(paymentMethod, cart);
-                            orderService.order(order, pin);
+                            printMessageToUser(orderService.order(order,null));
                         }
                     }
                 }
