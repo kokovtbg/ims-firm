@@ -12,19 +12,8 @@
   },
   {
     "expirationDate": "2023-11-11",
-    "id": 2,
-    "quantityPerKilogram": 10.0,
-    "price": 3.0,
-    "type": "GroceryItem",
-    "name": "tomatos",
-    "manufacturer": "Bulgaria",
-    "description": "Tomatos from Bulgaria",
-    "category": "STANDARD"
-  },
-  {
-    "expirationDate": "2023-11-11",
     "id": 3,
-    "quantityPerKilogram": 10.0,
+    "quantityPerKilogram": 30.0,
     "price": 3.0,
     "type": "GroceryItem",
     "name": "tomatos",

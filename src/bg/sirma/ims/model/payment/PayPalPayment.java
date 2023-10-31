@@ -8,6 +8,7 @@ public class PayPalPayment extends PaymentMethod {
     public PayPalPayment(User payer, PayPalAccount paypalAccount) {
         super(payer);
         this.paypalAccount = paypalAccount;
+        setType("PayPalPayment");
     }
 
     public PayPalAccount getPaypalAccount() {

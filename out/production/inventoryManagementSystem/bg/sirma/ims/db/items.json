@@ -12,19 +12,8 @@
   },
   {
     "expirationDate": "2023-11-11",
-    "id": 2,
-    "quantityPerKilogram": 10.0,
-    "price": 3.0,
-    "type": "GroceryItem",
-    "name": "tomatos",
-    "manufacturer": "Bulgaria",
-    "description": "Tomatos from Bulgaria",
-    "category": "STANDARD"
-  },
-  {
-    "expirationDate": "2023-11-11",
     "id": 3,
-    "quantityPerKilogram": 10.0,
+    "quantityPerKilogram": 30.0,
     "price": 3.0,
     "type": "GroceryItem",
     "name": "tomatos",
@@ -51,5 +40,37 @@
     "manufacturer": "KochiNoor",
     "description": "Very good pencil",
     "category": "LUXURIOUS"
+  },
+  {
+    "id": 6,
+    "quantityPerPiece": 20,
+    "price": 5.0,
+    "type": "InventoryItem",
+    "name": "belina",
+    "manufacturer": "Ache",
+    "description": "Belina from Ache",
+    "category": "STANDARD"
+  },
+  {
+    "weight": 300.0,
+    "id": 7,
+    "quantityPerPiece": 40,
+    "price": 50.0,
+    "type": "FragileItem",
+    "name": "fraggy",
+    "manufacturer": "Fraggy inc",
+    "description": "Fragile item",
+    "category": "STANDARD"
+  },
+  {
+    "warranty": 3,
+    "id": 8,
+    "quantityPerPiece": 50,
+    "price": 100.0,
+    "type": "ElectronicItem",
+    "name": "monitor",
+    "manufacturer": "LG",
+    "description": "monitor from LG",
+    "category": "STANDARD"
   }
 ]

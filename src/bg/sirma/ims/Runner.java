@@ -2,10 +2,8 @@ package bg.sirma.ims;
 
 import bg.sirma.ims.exception.*;
 import bg.sirma.ims.model.item.*;
-import bg.sirma.ims.services.ItemService;
-import bg.sirma.ims.services.ItemServiceImpl;
-import bg.sirma.ims.services.UserService;
-import bg.sirma.ims.services.UserServiceImpl;
+import bg.sirma.ims.model.payment.PayPalAccount;
+import bg.sirma.ims.services.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,6 +14,7 @@ import java.util.Scanner;
 public class Runner {
     private static final UserService userService = new UserServiceImpl();
     private static final ItemService itemService = new ItemServiceImpl();
+    private static final PaymentService paymentService = new PaymentServiceImpl();
 
     public static void run() {
         System.out.println("Welcome to Inventory Management System!!!");
@@ -112,6 +111,19 @@ public class Runner {
                         long id = Long.parseLong(commandData[0]);
                         String quantity = commandData[1];
                         printMessageToUser(itemService.update(id, quantity));
+                    }
+                    case 8 -> {
+                        printCommandEnum(CommandEnum.PAYMENT_ADD_PAYPAL);
+                        String[] commandData = scanner.nextLine().split("\\s+");
+                        String username = commandData[0];
+                        String password = commandData[1];
+                        PayPalAccount account = new PayPalAccount(username, password);
+                        printMessageToUser(paymentService.addPayPalPayment(account));
+                    }
+                    case 9 -> {
+                        printCommandEnum(CommandEnum.PAYMENT_ADD_CARD);
+                        String cardNumber = scanner.nextLine();
+                        printMessageToUser(paymentService.addCardPayment(cardNumber));
                     }
                 }
             } catch (NumberFormatException e) {

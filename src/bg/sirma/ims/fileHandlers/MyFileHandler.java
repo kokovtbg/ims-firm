@@ -6,10 +6,13 @@ import bg.sirma.ims.model.item.FragileItem;
 import bg.sirma.ims.model.item.GroceryItem;
 import bg.sirma.ims.model.item.InventoryItem;
 import bg.sirma.ims.model.order.Order;
+import bg.sirma.ims.model.payment.CardPayment;
+import bg.sirma.ims.model.payment.PayPalPayment;
 import bg.sirma.ims.model.payment.PaymentMethod;
 import bg.sirma.ims.model.user.User;
 import bg.sirma.ims.serializer.InventoryItemDeserializer;
 import bg.sirma.ims.serializer.LocalDateDeserializer;
+import bg.sirma.ims.serializer.PaymentMethodDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -31,9 +34,13 @@ public class MyFileHandler {
             .registerItemType("GroceryItem", GroceryItem.class)
             .registerItemType("ElectronicItem", ElectronicItem.class)
             .registerItemType("FragileItem", FragileItem.class);
+    private static final PaymentMethodDeserializer paymentDeserializer = new PaymentMethodDeserializer("type")
+            .registerMethodType("CardPayment", CardPayment.class)
+            .registerMethodType("PayPalPayment", PayPalPayment.class);
     private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
             .registerTypeAdapter(InventoryItem.class, deserializer)
+            .registerTypeAdapter(PaymentMethod.class, paymentDeserializer)
             .setPrettyPrinting()
             .create();
 

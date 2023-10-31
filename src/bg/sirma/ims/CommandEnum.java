@@ -12,7 +12,9 @@ public enum CommandEnum {
             + System.lineSeparator() +
             "{optional...[|(`grocery`)|(expiration-date)] optional...[|(`fragile`)|(weight)] optional...[|(`electronic`)|(warranty)]}"),
     ITEM_REMOVE("(id)"),
-    ITEM_UPDATE("(id) (quantity)");
+    ITEM_UPDATE("(id) (quantity)"),
+    PAYMENT_ADD_PAYPAL("(username from PayPal) (password from PayPal)"),
+    PAYMENT_ADD_CARD("(card number)");
 
     private String value;
 

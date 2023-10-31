@@ -8,6 +8,7 @@ public class CardPayment extends PaymentMethod {
     public CardPayment(User payer, String cardNumber) {
         super(payer);
         this.cardNumber = cardNumber;
+        setType("CardPayment");
     }
 
     public String getCardNumber() {

@@ -18,11 +18,14 @@ import java.util.Map;
 import static bg.sirma.ims.constants.Constants.paymentsPath;
 
 public class PaymentServiceImpl implements PaymentService {
-    private static final User currentUser = UserServiceImpl.getCurrentUser();
     private static final OrderService orderService = new OrderServiceImpl();
     private static final MockData mockData = new MockData().mock();
     private static final Bank bank = mockData.getBank();
     private static final PayPal payPal = mockData.getPayPal();
+
+    private User getCurrentUser() {
+        return UserServiceImpl.getCurrentUser();
+    }
 
     private boolean checkBalance(Order order, String pin) throws PermissionDeniedException, NotEnoughFundsException {
         PaymentMethod paymentMethod = order.getPayment();
@@ -88,6 +91,7 @@ public class PaymentServiceImpl implements PaymentService {
     public void pay(Order order, String pin) throws PermissionDeniedException, IOCustomException, ItemQuantityNotEnoughException, ItemNotValidException, ItemNotFoundException, NotEnoughFundsException {
         PaymentMethod payment = order.getPayment();
         User payer = payment.getPayer();
+        User currentUser = getCurrentUser();
         if (!currentUser.getUsername().equals(payer.getUsername())) {
             throw new PermissionDeniedException("You do not have permissions for that!!!");
         }
@@ -101,12 +105,15 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentMethod addCardPayment(String cardNumber) throws PermissionDeniedException, IOCustomException {
+        User currentUser = getCurrentUser();
         if (currentUser == null) {
             throw new PermissionDeniedException("You do not have permissions for that!!!");
         }
 
         CardPayment cardPayment = new CardPayment(currentUser, cardNumber);
         List<PaymentMethod> payments = MyFileHandler.getAllFromFile(paymentsPath, PaymentMethod[].class);
+        long lastId = MyFileHandler.getLastId(payments);
+        cardPayment.setId(lastId + 1);
         payments.add(cardPayment);
         MyFileHandler.saveToFile(payments, paymentsPath);
 
@@ -115,12 +122,15 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentMethod addPayPalPayment(PayPalAccount account) throws PermissionDeniedException, IOCustomException {
+        User currentUser = getCurrentUser();
         if (currentUser == null) {
             throw new PermissionDeniedException("You do not have permissions for that!!!");
         }
 
         PayPalPayment payPalPayment = new PayPalPayment(currentUser, account);
         List<PaymentMethod> payments = MyFileHandler.getAllFromFile(paymentsPath, PaymentMethod[].class);
+        long lastId = MyFileHandler.getLastId(payments);
+        payPalPayment.setId(lastId + 1);
         payments.add(payPalPayment);
         MyFileHandler.saveToFile(payments, paymentsPath);
 
