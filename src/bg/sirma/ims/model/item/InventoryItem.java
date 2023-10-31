@@ -9,6 +9,7 @@ public class InventoryItem extends AbstractItem {
     private Double quantityPerKilogram;
     private Integer quantityPerPiece;
     private BigDecimal price;
+    private String type;
 
     public InventoryItem(String name,
                          String manufacturer,
@@ -19,6 +20,7 @@ public class InventoryItem extends AbstractItem {
         super(name, manufacturer, description, category);
         this.quantityPerKilogram = quantity;
         this.price = price;
+        this.type = "InventoryItem";
     }
 
     public InventoryItem(String name,
@@ -30,6 +32,7 @@ public class InventoryItem extends AbstractItem {
         super(name, manufacturer, description, category);
         this.quantityPerPiece = quantityPerPiece;
         this.price = price;
+        this.type = "InventoryItem";
     }
 
     public long getId() {
@@ -54,6 +57,14 @@ public class InventoryItem extends AbstractItem {
 
     public void setQuantityPerPiece(int quantityPerPiece) {
         this.quantityPerPiece = quantityPerPiece;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

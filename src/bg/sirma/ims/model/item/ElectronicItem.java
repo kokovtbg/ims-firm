@@ -16,6 +16,7 @@ public class ElectronicItem extends InventoryItem implements Breakable {
                           int warranty) {
         super(name, manufacturer, description, category, quantity, price);
         this.warranty = warranty;
+        this.setType("ElectronicItem");
     }
 
     public int getWarranty() {

@@ -15,6 +15,7 @@ public class FragileItem extends InventoryItem implements Breakable {
                        double weight) {
         super(name, manufacturer, description, category, quantity, price);
         this.weight = weight;
+        this.setType("FragileItem");
     }
 
     public double getWeight() {

@@ -10,7 +10,9 @@ public enum CommandEnum {
             "{optional...[|(expiration-date)]}"),
     ITEM_ADD_PIECE("(name)|(manufacturer)|(description)|(category)|(quantity)|(price)"
             + System.lineSeparator() +
-            "{optional...[|(`grocery`)|(expiration-date)] optional...[|(`fragile`)|(weight)] optional...[|(`electronic`)|(warranty)]}");
+            "{optional...[|(`grocery`)|(expiration-date)] optional...[|(`fragile`)|(weight)] optional...[|(`electronic`)|(warranty)]}"),
+    ITEM_REMOVE("(id)"),
+    ITEM_UPDATE("(id) (quantity)");
 
     private String value;
 

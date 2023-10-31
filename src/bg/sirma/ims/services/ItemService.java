@@ -11,7 +11,7 @@ public interface ItemService {
     boolean remove(long id) throws ItemNotFoundException, IOCustomException, PermissionDeniedException;
     List<InventoryItem> getAll();
     InventoryItem getById(long id) throws ItemNotFoundException, PermissionDeniedException;
-    InventoryItem update(long id, Number quantity) throws ItemNotFoundException, IOCustomException, PermissionDeniedException, ItemNotValidException;
+    InventoryItem update(long id, String quantity) throws ItemNotFoundException, IOCustomException, PermissionDeniedException, ItemNotValidException;
     List<InventoryItem> sortByName();
     List<InventoryItem> sortByCategory();
     List<InventoryItem> sortByPrice();

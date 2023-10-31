@@ -1,10 +1,14 @@
 package bg.sirma.ims.fileHandlers;
 
 import bg.sirma.ims.exception.IOCustomException;
+import bg.sirma.ims.model.item.ElectronicItem;
+import bg.sirma.ims.model.item.FragileItem;
+import bg.sirma.ims.model.item.GroceryItem;
 import bg.sirma.ims.model.item.InventoryItem;
 import bg.sirma.ims.model.order.Order;
 import bg.sirma.ims.model.payment.PaymentMethod;
 import bg.sirma.ims.model.user.User;
+import bg.sirma.ims.serializer.InventoryItemDeserializer;
 import bg.sirma.ims.serializer.LocalDateDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,8 +26,14 @@ import java.util.stream.Collectors;
 import static bg.sirma.ims.constants.Constants.basePath;
 
 public class MyFileHandler {
+    private static final InventoryItemDeserializer deserializer = new InventoryItemDeserializer("type")
+            .registerItemType("InventoryItem", InventoryItem.class)
+            .registerItemType("GroceryItem", GroceryItem.class)
+            .registerItemType("ElectronicItem", ElectronicItem.class)
+            .registerItemType("FragileItem", FragileItem.class);
     private static final Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
+            .registerTypeAdapter(InventoryItem.class, deserializer)
             .setPrettyPrinting()
             .create();
 

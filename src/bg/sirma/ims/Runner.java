@@ -25,8 +25,6 @@ public class Runner {
 
         String line = scanner.nextLine();
         while (!line.equals("0")) {
-            showMenu();
-
             try {
                 int command = Integer.parseInt(line);
                 switch (command) {
@@ -101,20 +99,37 @@ public class Runner {
                         printMessageToUser(itemService.add(item));
                     }
                     case 6 -> {
-
+                        printCommandEnum(CommandEnum.ITEM_REMOVE);
+                        long id = Long.parseLong(scanner.nextLine());
+                        boolean isItemRemoved = itemService.remove(id);
+                        if (isItemRemoved) {
+                            printMessageToUser(String.format("Item with id (%d) REMOVED", id));
+                        }
+                    }
+                    case 7 -> {
+                        printCommandEnum(CommandEnum.ITEM_UPDATE);
+                        String[] commandData = scanner.nextLine().split("\\s+");
+                        long id = Long.parseLong(commandData[0]);
+                        String quantity = commandData[1];
+                        printMessageToUser(itemService.update(id, quantity));
                     }
                 }
             } catch (NumberFormatException e) {
                 printMessageToUser("Must enter number!!!");
+                showMenu();
             } catch (IOCustomException | UserExistException | UserCredentialsNotValidException |
-                     PermissionDeniedException | ItemNotValidException e) {
+                     PermissionDeniedException | ItemNotValidException | ItemNotFoundException e) {
                 printMessageToUser(e.getMessage());
+                showMenu();
             } catch (ArrayIndexOutOfBoundsException e) {
                 printMessageToUser("Must enter more parameters");
+                showMenu();
             } catch (IllegalArgumentException e) {
                 printMessageToUser("Must enter valid constant");
+                showMenu();
             } catch (DateTimeParseException e) {
                 printMessageToUser("Must be valid date of type (yyyy-MM-dd)");
+                showMenu();
             }
 
             line = scanner.nextLine();

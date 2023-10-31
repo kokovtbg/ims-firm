@@ -17,6 +17,7 @@ public class GroceryItem extends InventoryItem implements Perishable {
                        LocalDate expirationDate) {
         super(name, manufacturer, description, category, quantity, price);
         this.expirationDate = expirationDate;
+        this.setType("GroceryItem");
     }
 
     public GroceryItem(String name,

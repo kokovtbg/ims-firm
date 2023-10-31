@@ -100,7 +100,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public InventoryItem update(long id, Number quantity) throws ItemNotFoundException, IOCustomException, PermissionDeniedException, ItemNotValidException {
+    public InventoryItem update(long id, String quantity) throws ItemNotFoundException, IOCustomException, PermissionDeniedException, ItemNotValidException {
         if (!checkAdminPrivileges()) {
             throw new PermissionDeniedException("You do not have permissions for that!!!");
         }
@@ -112,9 +112,9 @@ public class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new ItemNotFoundException(String.format("Item with id (%d) not found!!!", id)));
 
         if (inventoryItem.getQuantityPerKilogram() != null) {
-            inventoryItem.setQuantityPerKilogram((double) quantity);
+            inventoryItem.setQuantityPerKilogram(Double.parseDouble(quantity));
         } else if (inventoryItem.getQuantityPerPiece() != null) {
-            inventoryItem.setQuantityPerPiece((int) quantity);
+            inventoryItem.setQuantityPerPiece(Integer.parseInt(quantity));
         }
 
         validateItem(inventoryItem);
