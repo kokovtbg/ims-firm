@@ -8,9 +8,9 @@ public class Order {
     private final PaymentMethod payment;
     private final Cart cart;
 
-    public Order(PaymentMethod payment) {
+    public Order(PaymentMethod payment, Cart cart) {
         this.payment = payment;
-        this.cart = new Cart();
+        this.cart = cart;
     }
 
     public long getId() {

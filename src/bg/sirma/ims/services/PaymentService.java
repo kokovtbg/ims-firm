@@ -6,7 +6,8 @@ import bg.sirma.ims.model.payment.PayPalAccount;
 import bg.sirma.ims.model.payment.PaymentMethod;
 
 public interface PaymentService {
-    void pay(Order order, String pin) throws PermissionDeniedException, IOCustomException, ItemQuantityNotEnoughException, ItemNotValidException, ItemNotFoundException, NotEnoughFundsException;
+    void pay(Order order, String pin) throws PermissionDeniedException, NotEnoughFundsException;
     PaymentMethod addCardPayment(String cardNumber) throws PermissionDeniedException, IOCustomException;
     PaymentMethod addPayPalPayment(PayPalAccount account) throws PermissionDeniedException, IOCustomException;
+    PaymentMethod getByTypeAndUserUsername(Class<? extends PaymentMethod> paymentMethodClass) throws PaymentMethodNotFoundException;
 }

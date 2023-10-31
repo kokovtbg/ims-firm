@@ -36,7 +36,7 @@ public class PaymentServiceImpl implements PaymentService {
                     .findFirst()
                     .orElseThrow(() -> new PermissionDeniedException("You do not have permissions for that!!!"));
 
-            BigDecimal totalCost = orderService.totalCost(order);
+            BigDecimal totalCost = orderService.totalCost(order.getCart());
             if (bankAccount.getBalance().compareTo(totalCost) < 0) {
                 throw new NotEnoughFundsException("There is not enough funds on your balance!!!");
             }
@@ -56,7 +56,7 @@ public class PaymentServiceImpl implements PaymentService {
                     .findFirst()
                     .orElseThrow(() -> new PermissionDeniedException("You do not have permissions for that!!!"));
 
-            BigDecimal totalCost = orderService.totalCost(order);
+            BigDecimal totalCost = orderService.totalCost(order.getCart());
             if (payPalAccountRemote.getBalance().compareTo(totalCost) < 0) {
                 throw new NotEnoughFundsException("There is not enough funds on your PayPal account!!!");
             }
@@ -88,7 +88,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void pay(Order order, String pin) throws PermissionDeniedException, IOCustomException, ItemQuantityNotEnoughException, ItemNotValidException, ItemNotFoundException, NotEnoughFundsException {
+    public void pay(Order order, String pin) throws PermissionDeniedException, NotEnoughFundsException {
         PaymentMethod payment = order.getPayment();
         User payer = payment.getPayer();
         User currentUser = getCurrentUser();
@@ -98,7 +98,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         boolean validPay = pin != null ? checkBalance(order, pin) : checkBalance(order);
         if (validPay) {
-            BigDecimal totalCost = orderService.totalCost(order);
+            BigDecimal totalCost = orderService.totalCost(order.getCart());
             processPay(totalCost, payment);
         }
     }
@@ -135,5 +135,15 @@ public class PaymentServiceImpl implements PaymentService {
         MyFileHandler.saveToFile(payments, paymentsPath);
 
         return payPalPayment;
+    }
+
+    @Override
+    public PaymentMethod getByTypeAndUserUsername(Class<? extends PaymentMethod> paymentMethodClass) throws PaymentMethodNotFoundException {
+        String username = UserServiceImpl.getCurrentUser().getUsername();
+        List<PaymentMethod> paymentMethods = MyFileHandler.getAllFromFile(paymentsPath, PaymentMethod[].class);
+        return paymentMethods.stream()
+                .filter(p -> p.getPayer().getUsername().equals(username) && p.getClass().equals(paymentMethodClass))
+                .findFirst()
+                .orElseThrow(() -> new PaymentMethodNotFoundException(String.format("Payment method not found on username (%s)", username)));
     }
 }

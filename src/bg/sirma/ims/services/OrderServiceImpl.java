@@ -5,6 +5,7 @@ import bg.sirma.ims.fileHandlers.MyFileHandler;
 import bg.sirma.ims.model.item.InventoryItem;
 import bg.sirma.ims.model.order.Order;
 import bg.sirma.ims.model.user.User;
+import bg.sirma.ims.temp.Cart;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,14 +18,10 @@ public class OrderServiceImpl implements OrderService {
     private static final ItemService itemService = new ItemServiceImpl();
 
     @Override
-    public BigDecimal totalCost(Order order) throws PermissionDeniedException {
-        User currentUser = UserServiceImpl.getCurrentUser();
-        if (currentUser == null) {
-            throw new PermissionDeniedException("You do not have permissions for that!!!");
-        }
+    public BigDecimal totalCost(Cart cart) throws PermissionDeniedException {
 
-        return order.getCart().getShoppingMap().entrySet().stream()
-                .map(e -> e.getKey().getPrice().multiply((BigDecimal) e.getValue()))
+        return cart.getShoppingMap().entrySet().stream()
+                .map(e -> e.getKey().getPrice().multiply(BigDecimal.valueOf((double) e.getValue())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

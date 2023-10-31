@@ -86,11 +86,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public InventoryItem getById(long id) throws ItemNotFoundException, PermissionDeniedException {
-        if (!checkAdminPrivileges()) {
-            throw new PermissionDeniedException("You do not have permissions for that!!!");
-        }
-
+    public InventoryItem getById(long id) throws ItemNotFoundException {
         List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
 
         return items.stream()
@@ -106,10 +102,7 @@ public class ItemServiceImpl implements ItemService {
         }
 
         List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
-        InventoryItem inventoryItem = items.stream()
-                .filter(i -> i.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new ItemNotFoundException(String.format("Item with id (%d) not found!!!", id)));
+        InventoryItem inventoryItem = getById(id);
 
         if (inventoryItem.getQuantityPerKilogram() != null) {
             inventoryItem.setQuantityPerKilogram(Double.parseDouble(quantity));
@@ -172,10 +165,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public InventoryItem updateByClient(long id, Number quantity) throws ItemNotFoundException, IOCustomException, ItemNotValidException, ItemQuantityNotEnoughException {
         List<InventoryItem> items = MyFileHandler.getAllFromFile(itemsPath, InventoryItem[].class);
-        InventoryItem inventoryItem = items.stream()
-                .filter(i -> i.getId() == id)
-                .findFirst()
-                .orElseThrow(() -> new ItemNotFoundException(String.format("Item with id (%d) not found!!!", id)));
+        InventoryItem inventoryItem = getById(id);
 
         checkAvailability(inventoryItem, quantity);
 

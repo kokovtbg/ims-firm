@@ -1,0 +1,31 @@
+[
+  {
+    "paypalAccount": {
+      "username": "abc",
+      "password": "abc"
+    },
+    "id": 1,
+    "payer": {
+      "id": 1,
+      "username": "ivan",
+      "password": "1234",
+      "roles": [
+        "ADMIN"
+      ]
+    },
+    "type": "PayPalPayment"
+  },
+  {
+    "cardNumber": "1111222233334444",
+    "id": 2,
+    "payer": {
+      "id": 1,
+      "username": "ivan",
+      "password": "1234",
+      "roles": [
+        "ADMIN"
+      ]
+    },
+    "type": "CardPayment"
+  }
+]

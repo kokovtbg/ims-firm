@@ -10,7 +10,7 @@ public interface ItemService {
     InventoryItem add(InventoryItem item) throws IOCustomException, PermissionDeniedException, ItemNotValidException;
     boolean remove(long id) throws ItemNotFoundException, IOCustomException, PermissionDeniedException;
     List<InventoryItem> getAll();
-    InventoryItem getById(long id) throws ItemNotFoundException, PermissionDeniedException;
+    InventoryItem getById(long id) throws ItemNotFoundException;
     InventoryItem update(long id, String quantity) throws ItemNotFoundException, IOCustomException, PermissionDeniedException, ItemNotValidException;
     List<InventoryItem> sortByName();
     List<InventoryItem> sortByCategory();

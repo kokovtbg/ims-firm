@@ -18,26 +18,25 @@ public class Cart {
         return shoppingMap;
     }
 
-    public void addToCart(InventoryItem item, Number quantity) {
+    public void addToCart(InventoryItem item, String quantity) {
         if (!shoppingMap.containsKey(item)) {
-            if (quantity instanceof Integer) {
+            if (item.getQuantityPerPiece() != null) {
                 shoppingMap.put(item, 0);
             } else {
                 shoppingMap.put(item, 0.0);
             }
         }
 
-        if (quantity instanceof Integer) {
-            shoppingMap.put(item, (int) shoppingMap.get(item) + (int) quantity);
+        if (shoppingMap.get(item) instanceof Integer) {
+            shoppingMap.put(item, (int) shoppingMap.get(item) + Integer.parseInt(quantity));
         } else {
-            shoppingMap.put(item, (double) shoppingMap.get(item) + (double) quantity);
+            shoppingMap.put(item, (double) shoppingMap.get(item) + Double.parseDouble(quantity));
         }
     }
 
     @Override
     public String toString() {
-        return "Cart{" +
-                "shoppingMap=" + shoppingMap.keySet().stream()
+        return "Cart{" + shoppingMap.keySet().stream()
                 .map(AbstractItem::toString).collect(Collectors.joining(",")) +
                 '}';
     }

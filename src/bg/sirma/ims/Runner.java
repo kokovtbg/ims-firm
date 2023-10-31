@@ -2,8 +2,13 @@ package bg.sirma.ims;
 
 import bg.sirma.ims.exception.*;
 import bg.sirma.ims.model.item.*;
+import bg.sirma.ims.model.order.Order;
+import bg.sirma.ims.model.payment.CardPayment;
 import bg.sirma.ims.model.payment.PayPalAccount;
+import bg.sirma.ims.model.payment.PayPalPayment;
+import bg.sirma.ims.model.payment.PaymentMethod;
 import bg.sirma.ims.services.*;
+import bg.sirma.ims.temp.Cart;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,6 +20,8 @@ public class Runner {
     private static final UserService userService = new UserServiceImpl();
     private static final ItemService itemService = new ItemServiceImpl();
     private static final PaymentService paymentService = new PaymentServiceImpl();
+    private static final OrderService orderService = new OrderServiceImpl();
+    private static final Cart cart = new Cart();
 
     public static void run() {
         System.out.println("Welcome to Inventory Management System!!!");
@@ -125,12 +132,40 @@ public class Runner {
                         String cardNumber = scanner.nextLine();
                         printMessageToUser(paymentService.addCardPayment(cardNumber));
                     }
+                    case 10 -> {
+                        printCommandEnum(CommandEnum.ORDER_ADD_TO_CART);
+                        String[] commandData = scanner.nextLine().split("\\s+");
+                        long id = Long.parseLong(commandData[0]);
+                        String quantity = commandData[1];
+                        InventoryItem item = itemService.getById(id);
+                        cart.addToCart(item, quantity);
+                        printMessageToUser(String.format("%s%nADDED TO CART", item));
+                    }
+                    case 11 -> {
+                        printCommandEnum(CommandEnum.ORDER_TOTAL_COST);
+                        printMessageToUser(orderService.totalCost(cart));
+                    }
+                    case 12 -> {
+                        printCommandEnum(CommandEnum.ORDER_DO_ORDER);
+                        String pin = scanner.nextLine();
+                        Order order;
+                        if (pin.isBlank()) {
+                            PaymentMethod paymentMethod = paymentService.getByTypeAndUserUsername(PayPalPayment.class);
+                            order = new Order(paymentMethod, cart);
+                            orderService.order(order,null);
+                        } else {
+                            PaymentMethod paymentMethod = paymentService.getByTypeAndUserUsername(CardPayment.class);
+                            order = new Order(paymentMethod, cart);
+                            orderService.order(order, pin);
+                        }
+                    }
                 }
             } catch (NumberFormatException e) {
                 printMessageToUser("Must enter number!!!");
                 showMenu();
             } catch (IOCustomException | UserExistException | UserCredentialsNotValidException |
-                     PermissionDeniedException | ItemNotValidException | ItemNotFoundException e) {
+                     PermissionDeniedException | ItemNotValidException | ItemNotFoundException |
+                     PaymentMethodNotFoundException | ItemQuantityNotEnoughException | NotEnoughFundsException e) {
                 printMessageToUser(e.getMessage());
                 showMenu();
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -141,6 +176,9 @@ public class Runner {
                 showMenu();
             } catch (DateTimeParseException e) {
                 printMessageToUser("Must be valid date of type (yyyy-MM-dd)");
+                showMenu();
+            } catch (ClassCastException e) {
+                printMessageToUser("Type of quantity not valid");
                 showMenu();
             }
 
